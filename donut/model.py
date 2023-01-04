@@ -130,7 +130,7 @@ class SwinEncoder(nn.Module):
             delta_width - pad_width,
             delta_height - pad_height,
         )
-        return self.to_tensor(ImageOps.expand(img, padding))
+        return self.to_tensor(ImageOps.expand(img, padding)).float()
 
 
 class BARTDecoder(nn.Module):
@@ -443,6 +443,8 @@ class DonutModel(PreTrainedModel):
         if self.device.type == "cuda":  # half is not compatible in cpu implementation.
             image_tensors = image_tensors.half()
             image_tensors = image_tensors.to(self.device)
+        elif self.device.type == "cpu":
+            image_tensors = image_tensors.type(torch.bfloat16)
 
         if prompt_tensors is None:
             prompt_tensors = self.decoder.tokenizer(prompt, add_special_tokens=False, return_tensors="pt")["input_ids"]
