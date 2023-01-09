@@ -75,6 +75,17 @@ To generate synthetic datasets with our SynthDoG, please see `./synthdog/README.
 pip install donut-python
 ```
 
+```bash
+# Create Environment
+conda env create -f environment.yml --prefix ./envs
+# Activate
+conda activate ./envs
+
+
+# Export Changes to environment
+conda env update --prefix ./env --file environment.yml  --prune
+```
+
 or clone this repository and install the dependencies:
 ```bash
 git clone https://github.com/clovaai/donut.git
